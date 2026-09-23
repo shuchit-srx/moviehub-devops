@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: moviehub-backend
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-subnets: subnet-0054535bd31e4f44f,subnet-01fd877f4a6b810e6,subnet-0eacd98a457689651
 spec:
   type: LoadBalancer
   selector:
@@ -9,3 +12,4 @@ spec:
   ports:
     - port: 3000
       targetPort: 3000
+      protocol: TCP
