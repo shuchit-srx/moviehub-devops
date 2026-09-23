@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moviehub-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moviehub-frontend
+  template:
+    metadata:
+      labels:
+        app: moviehub-frontend
+    spec:
+      containers:
+        - name: moviehub-frontend
+          image: FRONTEND_IMAGE
+          ports:
+            - containerPort: 80
