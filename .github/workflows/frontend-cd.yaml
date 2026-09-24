@@ -76,6 +76,17 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: Verify frontend API URL
+        env:
+          REACT_APP_MOVIE_API_URL: ${{ vars.REACT_APP_MOVIE_API_URL }}
+        run: |
+          if [ -z "$REACT_APP_MOVIE_API_URL" ]; then
+            echo "REACT_APP_MOVIE_API_URL is empty"
+            exit 1
+          fi
+
+    echo "Frontend API URL: $REACT_APP_MOVIE_API_URL"
+
       - name: Build Docker image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
