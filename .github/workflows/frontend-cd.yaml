@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-
   workflow_dispatch:
 
 jobs:
-
   lint:
     name: Lint Frontend
     runs-on: ubuntu-latest
@@ -30,7 +28,6 @@ jobs:
         working-directory: frontend
         run: npm run lint
 
-
   test:
     name: Test Frontend
     runs-on: ubuntu-latest
@@ -51,7 +48,6 @@ jobs:
       - name: Run tests
         working-directory: frontend
         run: npm run test
-
 
   build:
     name: Build and Push Frontend
@@ -85,7 +81,7 @@ jobs:
             exit 1
           fi
 
-    echo "Frontend API URL: $REACT_APP_MOVIE_API_URL"
+          echo "Frontend API URL: $REACT_APP_MOVIE_API_URL"
 
       - name: Build Docker image
         env:
@@ -106,7 +102,6 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
 
   deploy:
     name: Deploy Frontend to EKS
