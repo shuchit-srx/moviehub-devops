@@ -72,24 +72,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Verify frontend API URL
-        env:
-          REACT_APP_MOVIE_API_URL: ${{ vars.REACT_APP_MOVIE_API_URL }}
-        run: |
-          if [ -z "$REACT_APP_MOVIE_API_URL" ]; then
-            echo "REACT_APP_MOVIE_API_URL is empty"
-            exit 1
-          fi
-
-          echo "Frontend API URL: $REACT_APP_MOVIE_API_URL"
-
       - name: Build Docker image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: moviehub-frontend
           IMAGE_TAG: ${{ github.sha }}
-          REACT_APP_MOVIE_API_URL: ${{ vars.REACT_APP_MOVIE_API_URL }}
+          REACT_APP_MOVIE_API_URL: http://k8s-default-moviehub-ab8ccca6ca-17c49b6e001339e9.elb.ap-south-1.amazonaws.com:3000
         run: |
+          echo "Frontend API URL: $REACT_APP_MOVIE_API_URL"
+
           docker build \
             --build-arg REACT_APP_MOVIE_API_URL="$REACT_APP_MOVIE_API_URL" \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
